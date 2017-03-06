@@ -20,6 +20,7 @@ public:
 
 	kf::Xor128 m_rand;
 	kf::Vector2 m_lookDir;
+	
 
 };
 

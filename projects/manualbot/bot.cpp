@@ -38,6 +38,7 @@ void ManualBot::init(const BotInitialData &initialData, BotAttributes &attrib)
 void ManualBot::update(const BotInput &input, BotOutput &output)
 {
 	//output.m_moveDirection.set(m_rand.norm()*2.0-1.0, m_rand.norm()*2.0-1.0);
+	//output.moveDirection.set(m_rand.norm() / 2.0 - 1.0, m_rand.norm()*2.0 - 1.0);
 	output.motor = 1.0;
 
 	XINPUT_STATE xbox;

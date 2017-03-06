@@ -29,7 +29,7 @@ void BottyMcBotface::init(const BotInitialData &initialData, BotAttributes &attr
 	attrib.weaponStrength=1.0;
 	//dir.set(m_rand.norm()*2.0 - 1.0, m_rand.norm()*2.0 - 1.0);
 	m_ourLastPos.set(1, 0);
-	m_moveTarget.set(m_rand() % (m_initialData.mapData.width - 2) + 1.5, m_rand() % (m_initialData.mapData.width - 2) + 1.5);
+	//m_moveTarget.set(m_rand() % (m_initialData.mapData.width - 2) + 1.5, m_rand() % (m_initialData.mapData.width - 2) + 1.5);
 	m_scanAngle = 0;
 }
 
@@ -63,7 +63,8 @@ void BottyMcBotface::update(const BotInput &input, BotOutput27 &output)
 	output.moveDirection = m_moveTarget - input.position;
 	if (output.moveDirection.length() < 2)
 	{
-		m_moveTarget.set(m_rand() % (m_initialData.mapData.width - 2) + 1.5, m_rand() % (m_initialData.mapData.width - 2) + 1.5);
+		/*m_moveTarget.set(m_rand() % (m_initialData.mapData.width - 2) + 1.5, m_rand() % (m_initialData.mapData.width - 2) + 1.5);*/
+		m_moveTarget.set(m_rand() % 10, m_rand() % 5);
 	}
 	output.motor = 1.0;
 	
@@ -99,7 +100,7 @@ void BottyMcBotface::update(const BotInput &input, BotOutput27 &output)
 	}
 
 	// Debugging lines. Render a trail behind us.
-	if (m_updateCount > 0)
+	/*if (m_updateCount > 0)
 	{
 		Line l;
 		l.start = input.position;
@@ -108,7 +109,7 @@ void BottyMcBotface::update(const BotInput &input, BotOutput27 &output)
 		l.g = 0;
 		l.b = 0;
 		output.lines.push_back(l);
-	}
+	}*/
 
 	// How to change sprite frames (if the sprite has more than 1)
 	//output.spriteFrame = (output.spriteFrame+1)%2;
