@@ -23,6 +23,7 @@ public:
 	kf::Xor128 m_rand;
 	BotInitialData m_initialData;
 	kf::Vector2 dir;
+	kf::Vector2 currDir;
 	kf::Vector2 m_currentEnemyPos;
 	float scanAngle;
 	float random1;

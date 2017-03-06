@@ -5,6 +5,8 @@ c:\users\hyanuary\documents\killbot\projects\bottymcbotface\bot.cpp(14): warning
 c:\users\hyanuary\documents\killbot\projects\bottymcbotface\bot.cpp(14): warning C4244: 'argument': conversion from 'time_t' to 'kf::u32', possible loss of data
 c:\users\hyanuary\documents\killbot\projects\bottymcbotface\bot.cpp(67): warning C4244: 'argument': conversion from 'kf::u32' to 'float', possible loss of data
 c:\users\hyanuary\documents\killbot\projects\bottymcbotface\bot.cpp(78): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\bottymcbotface\bot.cpp(121): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
      Creating library C:\Users\hyanuary\Documents\KillBot\temp\Debug\bottymcbotface\bottymcbotface_d.lib and object C:\Users\hyanuary\Documents\KillBot\temp\Debug\bottymcbotface\bottymcbotface_d.exp
   bottymcbotface.vcxproj -> C:\Users\hyanuary\Documents\KillBot\bin\data\bots\bottymcbotface\bottymcbotface_d.dll
   bottymcbotface.vcxproj -> C:\Users\hyanuary\Documents\KillBot\bin\data\bots\bottymcbotface\bottymcbotface_d.pdb (Full PDB)

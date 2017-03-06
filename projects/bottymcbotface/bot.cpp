@@ -115,11 +115,11 @@ void BottyMcBotface::update(const BotInput &input, BotOutput27 &output)
 	//output.spriteFrame = (output.spriteFrame+1)%2;
 
 
-	// How to render text on the screen.
-	//output.text.clear();
-	//char buf[100];
-	//sprintf(buf, "%d", input.health);
-	//output.text.push_back(TextMsg(buf, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 80));
+	 //How to render text on the screen.
+	output.text.clear();
+	char buf[100];
+	sprintf(buf, "%d", input.health);
+	output.text.push_back(TextMsg(buf, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 80));
 	
 
 	// Remember values for the next update.
