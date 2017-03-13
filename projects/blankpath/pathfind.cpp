@@ -12,9 +12,12 @@ void Node::clear()
 	f = 0;
 	g = 0;
 	h = 0;
-	wall = false;
+	//wall = false;
 	parent.set(-1, -1);
-	state = NodeState::StateNone;
+	if(wall)
+		state = NodeState::StateClosed;
+	else
+		state = NodeState::StateNone;
 }
 
 Map::Map()
@@ -41,6 +44,8 @@ void Map::clear()
 
 void Map::init(int width, int height)
 {
+	m_width = width;
+	m_height = height;
 	m_nodes.resize(width*height);
 	clear();
 }

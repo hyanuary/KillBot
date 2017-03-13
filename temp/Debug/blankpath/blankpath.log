@@ -1,13 +1,13 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  pathfind.cpp
-c:\users\hyanuary\documents\killbot\projects\blankpath\pathfind.cpp(59): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
   bot.cpp
 c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(14): warning C4311: 'type cast': pointer truncation from 'Blank *const ' to 'int'
 c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(14): warning C4302: 'type cast': truncation from 'Blank *const ' to 'int'
 c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(14): warning C4244: 'argument': conversion from 'time_t' to 'kf::u32', possible loss of data
-c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(86): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(64): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(67): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(115): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(116): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(100): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
-  Generating Code...
-     Creating library C:\Users\hyanuary\Documents\KillBot\temp\Debug\blankpath\blankpath_d.lib and object C:\Users\hyanuary\Documents\KillBot\temp\Debug\blankpath\blankpath_d.exp
   blankpath.vcxproj -> C:\Users\hyanuary\Documents\KillBot\bin\data\bots\blankpath\blankpath_d.dll
   blankpath.vcxproj -> C:\Users\hyanuary\Documents\KillBot\bin\data\bots\blankpath\blankpath_d.pdb (Full PDB)

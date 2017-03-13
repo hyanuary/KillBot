@@ -28,6 +28,18 @@ void Blank::init(const BotInitialData &initialData, BotAttributes &attrib)
 	dir.set(3, 3);
 	scanAngle = 0;
 	m_map.init(initialData.mapData.width, initialData.mapData.height);
+	for (int y = 0; y < initialData.mapData.height; ++y) {
+		for (int x = 0; x < initialData.mapData.width; ++x)
+		{
+			Node& node = m_map.getNode(NodePos(x, y));
+			if (initialData.mapData.data[x + y * initialData.mapData.width].wall)
+				node.wall = true;
+			else
+			{
+				node.wall = false;
+			}
+		}
+	}
 }
 
 void Blank::update(const BotInput &input, BotOutput27 &output)
@@ -48,9 +60,12 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 			}
 		}
 	}
+	NodePos parents;
+	NodePos current(input.position.x, input.position.y);
+	parents = m_map.getNode(current).parent;
 
-	output.moveDirection = dir - input.position;
-	output.motor = 10.0;
+	output.moveDirection.set(parents.x - input.position.x + 0.5, parents.y - input.position.y + 0.5);
+	output.motor = 1.0;
 
 
 	//Shooting
@@ -69,14 +84,14 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 		output.action = BotOutput::scan;
 	}
 
-	if (input.health / 350 == 1)
+	/*if (input.health / 350 == 1)
 		dir.set(28, 3);
 	if (input.health / 200 == 1)
 		dir.set(28, 28);
 	if (input.health / 150 == 1)
 		dir.set(3, 28);
 	if (input.health / 50 == 1)
-		dir.set(3, 3);
+		dir.set(3, 3);*/
 
 	
 	//rendering text
@@ -84,7 +99,42 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	char buf[50];
 	sprintf(buf, "%d", input.health);
 	output.text.push_back(TextMsg(buf, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 80));
+
+	output.lines.clear();
+
+	//calling pathfinding
+	pathFinding(NodePos (1,1), NodePos(30,30));
 	
+	//drawing
+	for (int y = 1; y < m_initialData.mapData.height - 1; ++y) 
+	{
+		for (int x = 1; x < m_initialData.mapData.width - 1; ++x)
+		{
+			Node& node = m_map.getNode(NodePos(x, y));
+			Line l;
+			l.start.set(x + 0.5, y + 0.5);
+			l.end.set(node.parent.x + 0.5, node.parent.y + 0.5);
+			if (node.parent.x != -1 && node.parent.y != -1)
+			{
+				output.lines.push_back(l);
+			}
+		}
+	}
+	//for (int y = 0; y < m_initialData.mapData.height; ++y) 
+	//{
+	//	for (int x = 0; x < m_initialData.mapData.width; ++x)
+	//	{
+	//		Node& node = m_map.getNode(NodePos(x, y));
+	//		Line l;
+	//		l.start.set(x + 0.2, y + 0.2);
+	//		l.end.set(x+0.8,y+0.8);
+	//		if (node.state == Node::StateClosed)
+	//		{
+	//			output.lines.push_back(l);
+	//		}
+	//	}
+	//}
+
 
 }
 
@@ -97,21 +147,64 @@ void Blank::bulletResult(bool hit)
 
 }
 
-void Blank::pathFinding(const NodePos &startNode, NodePos &currNode)
+void Blank::pathFinding(const NodePos &startNode, NodePos &endNode)
 {
 	m_map.clear();
 	openList.push_back(startNode);
-	while (openList.size > 0 && pathFound == false)
+	pathFound = false;
+	while (openList.size()/* > 0 && pathFound == false*/)
 	{
-		//find node in openlist with the smallest f value
-		for (int oy = -1; oy < 1; oy++)
+		NodePos currNode;
+		currNode = openList.front();
+		int j = 0;
+		for (int i = 0;i < openList.size();++i)
 		{
-			for (int ox = -1; ox < 1; ox++)
+			if (m_map.getNode(openList[i]).f < m_map.getNode(currNode).f)
 			{
-				NodePos addj; 
-				 addj = currNode + (ox, oy);
-				int G = currNode.g + ;
+				currNode = openList[i];
+				j = i;
 			}
 		}
+		openList[j] = openList.back();
+		openList.pop_back(); //change it to make it move the other way
+		m_map.getNode(currNode).state = Node::StateClosed;
+			for (int oy = -1; oy < 2; oy++)
+			{
+				for (int ox = -1; ox < 2; ox++)
+				{
+					if (ox == 0 && oy == 0 || ox != 0 && oy != 0)
+					{
+						continue;
+					}
+					NodePos adj;
+					adj = currNode + NodePos(ox, oy);
+					Node &adj1 = m_map.getNode(adj);
+					int G = currNode.g + adj1.c;
+					if (adj1.state == Node::StateClosed)
+					{
+
+					}
+					else if (adj1.state == Node::StateOpen && G < adj1.g)
+					{
+						adj1.g = G;
+						adj1.h = 0;//change it to manhatan distance
+						adj1.parent = currNode;
+						adj1.f = adj1.g + adj1.h;
+					}
+					else if(adj1.state == Node::StateNone)
+					{
+						adj1.g = G;
+						adj1.h = 0; //change it to manhatan distance
+						adj1.parent = currNode;
+						adj1.f = adj1.g + adj1.h;
+						adj1.state = Node::StateOpen;
+						openList.push_back(adj);
+					}
+					if (adj.x == endNode.x && adj.y == endNode.y)
+						pathFound = true;
+				}
+		
+		}
+		
 	}
 }
