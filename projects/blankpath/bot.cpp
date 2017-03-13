@@ -25,8 +25,7 @@ void Blank::init(const BotInitialData &initialData, BotAttributes &attrib)
 	attrib.motor= 1.0;
 	attrib.weaponSpeed= 1.0;
 	attrib.weaponStrength= 1.0;
-	timer = 50.0f;
-	dir.set(2, 28);
+	dir.set(3, 3);
 	scanAngle = 0;
 	m_map.init(initialData.mapData.width, initialData.mapData.height);
 }
@@ -50,17 +49,8 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 		}
 	}
 
-	random1 = m_rand() % 2;
-	
 	output.moveDirection = dir - input.position;
-	//dir.set(m_rand() % (m_initialData.mapData.width - 2) + 1.5, m_rand() % (m_initialData.mapData.width - 2) + 1.5);
-
-	if (output.moveDirection.length() < 2)
-	{
-		//dir.set(2, 2);
-	}
 	output.motor = 10.0;
-	//output.lookDirection.set(m_rand.norm()*3.0, m_rand.norm()*4.0);
 
 
 	//Shooting
@@ -74,28 +64,28 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	else
 	//Scanning
 	{
-		scanAngle += m_initialData.scanFOV * 2;
-		output.lookDirection.set(cos(scanAngle), sin(scanAngle));
+		scanAngle += m_initialData.scanFOV * 10;
+		output.lookDirection.set(sin(scanAngle), cos(scanAngle));
 		output.action = BotOutput::scan;
 	}
 
 	if (input.health / 350 == 1)
-		dir.set(28, 2);
+		dir.set(28, 3);
 	if (input.health / 200 == 1)
 		dir.set(28, 28);
 	if (input.health / 150 == 1)
-		dir.set(2, 28);
+		dir.set(3, 28);
 	if (input.health / 50 == 1)
-	{
-		dir.set(2, 2);
-	}
-		
+		dir.set(3, 3);
+
+	
 	//rendering text
 	output.text.clear();
-	char buf[100];
+	char buf[50];
 	sprintf(buf, "%d", input.health);
 	output.text.push_back(TextMsg(buf, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 80));
 	
+
 }
 
 void Blank::result(bool won)
@@ -105,4 +95,23 @@ void Blank::result(bool won)
 void Blank::bulletResult(bool hit)
 {
 
+}
+
+void Blank::pathFinding(const NodePos &startNode, NodePos &currNode)
+{
+	m_map.clear();
+	openList.push_back(startNode);
+	while (openList.size > 0 && pathFound == false)
+	{
+		//find node in openlist with the smallest f value
+		for (int oy = -1; oy < 1; oy++)
+		{
+			for (int ox = -1; ox < 1; ox++)
+			{
+				NodePos addj; 
+				 addj = currNode + (ox, oy);
+				int G = currNode.g + ;
+			}
+		}
+	}
 }

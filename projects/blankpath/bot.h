@@ -19,6 +19,7 @@ public:
 	virtual void update(const BotInput &input, BotOutput27 &output);
 	virtual void result(bool won);
 	virtual void bulletResult(bool hit);
+	virtual void pathFinding(const NodePos &startNode, NodePos &currNode);
 
 	kf::Xor128 m_rand;
 	BotInitialData m_initialData;
@@ -26,8 +27,11 @@ public:
 	kf::Vector2 currDir;
 	kf::Vector2 m_currentEnemyPos;
 	float scanAngle;
-	float random1;
-	float timer;
+
+	//finding path
+	std::vector<NodePos> openList;
+	bool pathFound;
+
 	Map m_map;
 };
 

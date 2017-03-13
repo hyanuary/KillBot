@@ -35,13 +35,17 @@ public:
 	std::vector<Node> m_nodes;
 	int m_width;
 	int m_height;
-	
+	//finding path
+	std::vector<NodePos> openList;
+	bool pathFound;
 	void clear();
 	void init(int width, int height);
 	Node &getNode(const NodePos &np);
 	Node &getNode(const kf::Vector2 &np);
 	Node &operator[](const NodePos &np);
 	Node &operator[](const kf::Vector2 &np);
+
+	
 };
 
 
