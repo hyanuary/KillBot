@@ -3,11 +3,13 @@
 c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(14): warning C4311: 'type cast': pointer truncation from 'Blank *const ' to 'int'
 c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(14): warning C4302: 'type cast': truncation from 'Blank *const ' to 'int'
 c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(14): warning C4244: 'argument': conversion from 'time_t' to 'kf::u32', possible loss of data
-c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(64): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(67): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(115): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(116): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(100): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(73): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(76): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(77): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(136): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(137): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(118): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+c:\users\hyanuary\documents\killbot\projects\blankpath\bot.cpp(117): warning C4101: 'nex': unreferenced local variable
   blankpath.vcxproj -> C:\Users\hyanuary\Documents\KillBot\bin\data\bots\blankpath\blankpath_d.dll
   blankpath.vcxproj -> C:\Users\hyanuary\Documents\KillBot\bin\data\bots\blankpath\blankpath_d.pdb (Full PDB)

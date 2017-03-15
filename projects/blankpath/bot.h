@@ -27,10 +27,17 @@ public:
 	kf::Vector2 currDir;
 	kf::Vector2 m_currentEnemyPos;
 	float scanAngle;
+	int randomLocation1;
+	int randomLocation2;
+	int randomLocation3;
+	int randomLocation4;
+
+	int timer;
 
 	//finding path
 	std::vector<NodePos> openList;
 	bool pathFound;
+	
 
 	Map m_map;
 };

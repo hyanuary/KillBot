@@ -27,7 +27,13 @@ void Blank::init(const BotInitialData &initialData, BotAttributes &attrib)
 	attrib.weaponStrength= 1.0;
 	dir.set(3, 3);
 	scanAngle = 0;
+	randomLocation1 = m_rand() % (30 - 1 + 1) + 1;
+	randomLocation2 = m_rand() % (30 - 1 + 1) + 1;
+	randomLocation3 = m_rand() % (30 - 1 + 1) + 1;
+	randomLocation4 = m_rand() % (30 - 1 + 1) + 1;
+	timer = 1;
 	m_map.init(initialData.mapData.width, initialData.mapData.height);
+	//loking at the tile if it's wall or not
 	for (int y = 0; y < initialData.mapData.height; ++y) {
 		for (int x = 0; x < initialData.mapData.width; ++x)
 		{
@@ -45,6 +51,7 @@ void Blank::init(const BotInitialData &initialData, BotAttributes &attrib)
 void Blank::update(const BotInput &input, BotOutput27 &output)
 {
 	bool nowShooting = false;
+	timer += 1;
 
 	if (input.scanResult.size() > 0)
 	{
@@ -60,12 +67,14 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 			}
 		}
 	}
+
+	//looking for the parents of each nodes
 	NodePos parents;
 	NodePos current(input.position.x, input.position.y);
 	parents = m_map.getNode(current).parent;
 
 	output.moveDirection.set(parents.x - input.position.x + 0.5, parents.y - input.position.y + 0.5);
-	output.motor = 1.0;
+	output.motor = 0.1;
 
 
 	//Shooting
@@ -74,12 +83,12 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 		output.lookDirection = m_currentEnemyPos - input.position;
 		output.moveDirection = m_currentEnemyPos;
 		output.action = BotOutput::shoot;
-		scanAngle -= m_initialData.scanFOV * 2;
+		scanAngle -= m_initialData.scanFOV * 3;
 	}
 	else
 	//Scanning
 	{
-		scanAngle += m_initialData.scanFOV * 10;
+		scanAngle += m_initialData.scanFOV * 2;
 		output.lookDirection.set(sin(scanAngle), cos(scanAngle));
 		output.action = BotOutput::scan;
 	}
@@ -93,17 +102,29 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	if (input.health / 50 == 1)
 		dir.set(3, 3);*/
 
+	if (timer > 1000)
+	{
+		randomLocation1 = m_rand() % (30 - 1 + 1) + 1;
+		randomLocation2 = m_rand() % (30 - 1 + 1) + 1;
+		randomLocation3 = m_rand() % (30 - 1 + 1) + 1;
+		randomLocation4 = m_rand() % (30 - 1 + 1) + 1;
+		timer = 0;
+	}
 	
 	//rendering text
 	output.text.clear();
 	char buf[50];
-	sprintf(buf, "%d", input.health);
+	char nex[50];
+	sprintf(buf, "%d", timer);
+	//sprintf(nex, "%d", randomLocation2);
 	output.text.push_back(TextMsg(buf, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 80));
+	//output.text.push_back(TextMsg(nex, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 100));
 
 	output.lines.clear();
+	
 
 	//calling pathfinding
-	pathFinding(NodePos (1,1), NodePos(30,30));
+	pathFinding(NodePos (randomLocation1, randomLocation2), NodePos(randomLocation3, randomLocation4));
 	
 	//drawing
 	for (int y = 1; y < m_initialData.mapData.height - 1; ++y) 
@@ -152,7 +173,7 @@ void Blank::pathFinding(const NodePos &startNode, NodePos &endNode)
 	m_map.clear();
 	openList.push_back(startNode);
 	pathFound = false;
-	while (openList.size()/* > 0 && pathFound == false*/)
+	while (openList.size() > 0 /*&& pathFound == false*/)
 	{
 		NodePos currNode;
 		currNode = openList.front();
@@ -179,6 +200,10 @@ void Blank::pathFinding(const NodePos &startNode, NodePos &endNode)
 					NodePos adj;
 					adj = currNode + NodePos(ox, oy);
 					Node &adj1 = m_map.getNode(adj);
+					int dx = abs(startNode.x - endNode.x);
+					int dy = abs(startNode.y - endNode.y);
+					int D = 1;
+					int H = D *(dx + dy);
 					int G = currNode.g + adj1.c;
 					if (adj1.state == Node::StateClosed)
 					{
@@ -187,14 +212,14 @@ void Blank::pathFinding(const NodePos &startNode, NodePos &endNode)
 					else if (adj1.state == Node::StateOpen && G < adj1.g)
 					{
 						adj1.g = G;
-						adj1.h = 0;//change it to manhatan distance
+						adj1.h = 0;
 						adj1.parent = currNode;
 						adj1.f = adj1.g + adj1.h;
 					}
 					else if(adj1.state == Node::StateNone)
 					{
 						adj1.g = G;
-						adj1.h = 0; //change it to manhatan distance
+						adj1.h = 0;
 						adj1.parent = currNode;
 						adj1.f = adj1.g + adj1.h;
 						adj1.state = Node::StateOpen;
