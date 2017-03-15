@@ -20,6 +20,7 @@ public:
 	virtual void result(bool won);
 	virtual void bulletResult(bool hit);
 	virtual void pathFinding(const NodePos &startNode, NodePos &endNode);
+	
 
 	kf::Xor128 m_rand;
 	BotInitialData m_initialData;

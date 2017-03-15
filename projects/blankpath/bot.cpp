@@ -53,6 +53,7 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	bool nowShooting = false;
 	timer += 1;
 
+	//finding the enemy
 	if (input.scanResult.size() > 0)
 	{
 		for (int i = 0;i < input.scanResult.size();++i)
@@ -73,6 +74,7 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	NodePos current(input.position.x, input.position.y);
 	parents = m_map.getNode(current).parent;
 
+	//moving the bot
 	output.moveDirection.set(parents.x - input.position.x + 0.5, parents.y - input.position.y + 0.5);
 	output.motor = 0.1;
 
@@ -89,18 +91,14 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	//Scanning
 	{
 		scanAngle += m_initialData.scanFOV * 2;
+		if (input.health < 200)
+		{
+			scanAngle += m_initialData.scanFOV ;
+		}
 		output.lookDirection.set(sin(scanAngle), cos(scanAngle));
 		output.action = BotOutput::scan;
 	}
 
-	/*if (input.health / 350 == 1)
-		dir.set(28, 3);
-	if (input.health / 200 == 1)
-		dir.set(28, 28);
-	if (input.health / 150 == 1)
-		dir.set(3, 28);
-	if (input.health / 50 == 1)
-		dir.set(3, 3);*/
 
 	if (timer > 1000)
 	{
@@ -114,17 +112,14 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 	//rendering text
 	output.text.clear();
 	char buf[50];
-	char nex[50];
-	sprintf(buf, "%d", timer);
-	//sprintf(nex, "%d", randomLocation2);
+	sprintf(buf, "%d", input.health);
 	output.text.push_back(TextMsg(buf, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 80));
-	//output.text.push_back(TextMsg(nex, input.position - kf::Vector2(0.0f, 1.0f), 0.0f, 0.7f, 1.0f, 100));
 
 	output.lines.clear();
 	
 
 	//calling pathfinding
-	pathFinding(NodePos (randomLocation1, randomLocation2), NodePos(randomLocation3, randomLocation4));
+	pathFinding(NodePos (1, 1), NodePos(30, 29));
 	
 	//drawing
 	for (int y = 1; y < m_initialData.mapData.height - 1; ++y) 
@@ -212,14 +207,14 @@ void Blank::pathFinding(const NodePos &startNode, NodePos &endNode)
 					else if (adj1.state == Node::StateOpen && G < adj1.g)
 					{
 						adj1.g = G;
-						adj1.h = 0;
+						adj1.h = H;
 						adj1.parent = currNode;
 						adj1.f = adj1.g + adj1.h;
 					}
 					else if(adj1.state == Node::StateNone)
 					{
 						adj1.g = G;
-						adj1.h = 0;
+						adj1.h = H;
 						adj1.parent = currNode;
 						adj1.f = adj1.g + adj1.h;
 						adj1.state = Node::StateOpen;
