@@ -27,12 +27,13 @@ void Blank::init(const BotInitialData &initialData, BotAttributes &attrib)
 	attrib.weaponStrength= 1.0;
 	dir.set(3, 3);
 	scanAngle = 0;
+	m_map.init(initialData.mapData.width, initialData.mapData.height);
+
 	randomLocation1 = m_rand() % (30 - 1 + 1) + 1;
 	randomLocation2 = m_rand() % (30 - 1 + 1) + 1;
 	randomLocation3 = m_rand() % (30 - 1 + 1) + 1;
 	randomLocation4 = m_rand() % (30 - 1 + 1) + 1;
 	timer = 1;
-	m_map.init(initialData.mapData.width, initialData.mapData.height);
 	//loking at the tile if it's wall or not
 	for (int y = 0; y < initialData.mapData.height; ++y) {
 		for (int x = 0; x < initialData.mapData.width; ++x)
@@ -51,7 +52,7 @@ void Blank::init(const BotInitialData &initialData, BotAttributes &attrib)
 void Blank::update(const BotInput &input, BotOutput27 &output)
 {
 	bool nowShooting = false;
-	timer += 1;
+	
 
 	//finding the enemy
 	if (input.scanResult.size() > 0)
@@ -69,6 +70,7 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 		}
 	}
 
+	timer += 1;
 	//looking for the parents of each nodes
 	NodePos parents;
 	NodePos current(input.position.x, input.position.y);
@@ -76,8 +78,11 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 
 	//moving the bot
 	output.moveDirection.set(parents.x - input.position.x + 0.5, parents.y - input.position.y + 0.5);
-	output.motor = 0.1;
+	output.motor = 0.1; 
 
+	//old moving 
+	output.moveDirection = dir - input.position;
+	output.motor = 1.0;
 
 	//Shooting
 	if (nowShooting)
@@ -99,15 +104,37 @@ void Blank::update(const BotInput &input, BotOutput27 &output)
 		output.action = BotOutput::scan;
 	}
 
+	//old behaviour
+	if (input.health < 300)
+	{
+		dir.set(28, 3);
+		output.moveDirection = dir;
+	}
+	if (input.health < 200)
+	{
+		dir.set(28, 28);
+		output.moveDirection = dir;
+	}
+	if (input.health < 100)
+	{
+		dir.set(3, 28);
+		output.moveDirection = dir;
+	}
+	if (input.health < 50)
+	{
+		dir.set(3, 3);
+		output.moveDirection = dir;
+	}
 
-	if (timer > 1000)
+
+	/*if (timer > 1000)
 	{
 		randomLocation1 = m_rand() % (30 - 1 + 1) + 1;
 		randomLocation2 = m_rand() % (30 - 1 + 1) + 1;
 		randomLocation3 = m_rand() % (30 - 1 + 1) + 1;
 		randomLocation4 = m_rand() % (30 - 1 + 1) + 1;
 		timer = 0;
-	}
+	}*/
 	
 	//rendering text
 	output.text.clear();
